@@ -61,7 +61,7 @@ namespace SalesDB.Test
             // 
             scalarValueCondition1.ColumnNumber = 1;
             scalarValueCondition1.Enabled = true;
-            scalarValueCondition1.ExpectedValue = "-100";
+            scalarValueCondition1.ExpectedValue = "100";
             scalarValueCondition1.Name = "scalarValueCondition1";
             scalarValueCondition1.NullExpected = false;
             scalarValueCondition1.ResultSet = 1;
