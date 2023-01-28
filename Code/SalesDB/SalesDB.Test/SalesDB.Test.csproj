@@ -59,7 +59,13 @@
   <ItemGroup>
     <Compile Include="SqlDatabaseSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="uspFillOrderTest.cs">
+      <SubType>Designer</SubType>
+    </Compile>
     <Compile Include="uspNewCustomerTest.cs">
+      <SubType>Designer</SubType>
+    </Compile>
+    <Compile Include="uspPlaceNewOrderTest.cs">
       <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
@@ -67,8 +73,14 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="uspFillOrderTest.resx">
+      <DependentUpon>uspFillOrderTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="uspNewCustomerTest.resx">
       <DependentUpon>uspNewCustomerTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="uspPlaceNewOrderTest.resx">
+      <DependentUpon>uspPlaceNewOrderTest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -34,9 +34,11 @@ namespace SalesDB.Test
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Sales_uspNewCustomerTest_TestAction;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(uspNewCustomerTest));
             Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition rowCountCondition1;
+            Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction Sales_uspNewCustomerTest_PosttestAction;
             this.Sales_uspNewCustomerTestData = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestActions();
             Sales_uspNewCustomerTest_TestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             rowCountCondition1 = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.Conditions.RowCountCondition();
+            Sales_uspNewCustomerTest_PosttestAction = new Microsoft.Data.Tools.Schema.Sql.UnitTesting.SqlDatabaseTestAction();
             // 
             // Sales_uspNewCustomerTest_TestAction
             // 
@@ -45,7 +47,7 @@ namespace SalesDB.Test
             // 
             // Sales_uspNewCustomerTestData
             // 
-            this.Sales_uspNewCustomerTestData.PosttestAction = null;
+            this.Sales_uspNewCustomerTestData.PosttestAction = Sales_uspNewCustomerTest_PosttestAction;
             this.Sales_uspNewCustomerTestData.PretestAction = null;
             this.Sales_uspNewCustomerTestData.TestAction = Sales_uspNewCustomerTest_TestAction;
             // 
@@ -55,6 +57,10 @@ namespace SalesDB.Test
             rowCountCondition1.Name = "rowCountCondition1";
             rowCountCondition1.ResultSet = 1;
             rowCountCondition1.RowCount = 1;
+            // 
+            // Sales_uspNewCustomerTest_PosttestAction
+            // 
+            resources.ApplyResources(Sales_uspNewCustomerTest_PosttestAction, "Sales_uspNewCustomerTest_PosttestAction");
         }
 
         #endregion

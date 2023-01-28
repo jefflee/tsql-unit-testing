@@ -117,22 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Sales_uspNewCustomerTest_TestAction.SqlScript" xml:space="preserve">
-    <value>-- database unit test for Sales.uspNewCustomer
-DECLARE @RC AS INT, @CustomerName AS NVARCHAR (40);
+  <data name="Sales_uspPlaceNewOrderTest_TestAction.SqlScript" xml:space="preserve">
+    <value>-- database unit test for Sales.uspPlaceNewOrder
+DECLARE @RC AS INT, @CustomerID AS INT, @Amount AS INT, @OrderDate AS DATETIME, @Status AS CHAR (1);
+DECLARE @CustomerName AS NVARCHAR(40); 
 
 SELECT @RC = 0,
-       @CustomerName = 'TestUser';
+       @CustomerID = 0,
+       @Amount = 100,
+       @OrderDate = getdate(),
+       @Status = 'o',
+			 @CustomerName = N'TestUser';
 
-EXECUTE @RC = [Sales].[uspNewCustomer] @CustomerName;
+-- NOTE: Assumes that you inserted a Customer record with CustomerName='Fictitious Customer' in the pre-test script.  
+SELECT @CustomerID = [CustomerID] FROM [Sales].[Customer] WHERE [CustomerName] = @CustomerName;  
 
-SELECT * FROM [Sales].[Customer] WHERE [CustomerID] = @RC;  
+-- place an order for that customer  
+EXECUTE @RC = [Sales].[uspPlaceNewOrder] @CustomerID, @Amount, @OrderDate, @Status;  
 
-</value>
+-- verify that the YTDOrders value is correct.  
+SELECT @RC = [YTDOrders] FROM [Sales].[Customer] WHERE [CustomerID] = @CustomerID  
+
+SELECT @RC AS RC  </value>
   </data>
-  <data name="Sales_uspNewCustomerTest_PosttestAction.SqlScript" xml:space="preserve">
+  <data name="Sales_uspPlaceNewOrderTest_PretestAction.SqlScript" xml:space="preserve">
     <value>/*
-Add SQL statements here that you want to run after 
+Add SQL statements here that you want to run before
 the test script is run.
 
 In the lower pane, you can add test conditions that verify 
@@ -140,15 +150,25 @@ whether the results of your SQL statements match what
 you expect.
 */
 
-DECLARE @CustomerName AS NVARCHAR (40) = 'TestUser';
+-- Add a customer for this test with the name 'Fictitious Customer'  
+DECLARE @NewCustomerID AS INT, @CustomerID AS INT, @RC AS INT, @CustomerName AS NVARCHAR (40);  
 
-DELETE o
-FROM [Sales].[Orders] AS o
-JOIN [Sales].[Customer] AS c ON o.[CustomerID] = c.[CustomerID]
-WHERE c.[CustomerName] =@CustomerName; 
+SELECT @RC = 0,  
+       @NewCustomerID = 0,  
+   @CustomerID = 0,  
+       @CustomerName = N'TestUser';  
 
+IF NOT EXISTS(SELECT * FROM [Sales].[Customer] WHERE CustomerName = @CustomerName)  
+BEGIN  
+EXECUTE @NewCustomerID = [Sales].[uspNewCustomer] @CustomerName;  
+END  
 
-DELETE [Sales].[Customer] WHERE [CustomerName] = @CustomerName; </value>
+-- NOTE: Assumes that you inserted a Customer record with CustomerName='Fictitious Customer' in the pre-test script.  
+SELECT @CustomerID = [CustomerID] FROM [Sales].[Customer] WHERE [CustomerName] = @CustomerName;  
+
+-- delete any old records in the Orders table and clear out the YTD Sales/Orders fields  
+DELETE from [Sales].[Orders] WHERE [CustomerID] = @CustomerID;  
+UPDATE [Sales].[Customer] SET YTDOrders = 0, YTDSales = 0 WHERE [CustomerID] = @CustomerID;  </value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
