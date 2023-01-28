@@ -68,6 +68,9 @@
     <Compile Include="uspPlaceNewOrderTest.cs">
       <SubType>Designer</SubType>
     </Compile>
+    <Compile Include="uspShowOrderDetailsTest.cs">
+      <SubType>Designer</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -81,6 +84,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="uspPlaceNewOrderTest.resx">
       <DependentUpon>uspPlaceNewOrderTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="uspShowOrderDetailsTest.resx">
+      <DependentUpon>uspShowOrderDetailsTest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
